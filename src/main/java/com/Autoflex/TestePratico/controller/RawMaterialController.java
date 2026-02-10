@@ -16,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/raw_material")
+@CrossOrigin(origins="http://localhost:5173")
 public class RawMaterialController {
 
     private final ModelMapper mapper;
