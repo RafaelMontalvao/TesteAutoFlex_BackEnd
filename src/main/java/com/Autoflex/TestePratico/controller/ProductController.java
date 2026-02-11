@@ -82,11 +82,36 @@ public class ProductController {
 //        return ResponseEntity.ok(productService.getAllProducts());
 //    }
 
+//    @GetMapping("/get/{id}")
+//    public ResponseEntity<ProductResponseDto> getProductById(@PathVariable Integer id){
+//        Product product = productService.getProductById(id);
+//        ProductResponseDto productResponseDto = mapper.map(product, ProductResponseDto.class);
+//        return ResponseEntity.ok(productResponseDto);
+//    }
+
     @GetMapping("/get/{id}")
     public ResponseEntity<ProductResponseDto> getProductById(@PathVariable Integer id){
+
         Product product = productService.getProductById(id);
-        ProductResponseDto productResponseDto = mapper.map(product, ProductResponseDto.class);
-        return ResponseEntity.ok(productResponseDto);
+
+        ProductResponseDto dto = new ProductResponseDto();
+        dto.setId(product.getId());
+        dto.setName(product.getName());
+        dto.setCode(product.getCode());
+        dto.setPrice(product.getPrice());
+
+        List<ProductMaterialResponseDto> materials =
+                product.getMaterial().stream().map(pm -> {
+                    ProductMaterialResponseDto pmDto = new ProductMaterialResponseDto();
+                    pmDto.setRawMaterialId(pm.getRawMaterial().getId());
+                    pmDto.setRawMaterialName(pm.getRawMaterial().getName());
+                    pmDto.setQuantityNeeded(pm.getRequeiredQuantity());
+                    return pmDto;
+                }).toList();
+
+        dto.setMaterials(materials);
+
+        return ResponseEntity.ok(dto);
     }
 
 
