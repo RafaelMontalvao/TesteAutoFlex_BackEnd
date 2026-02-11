@@ -36,6 +36,11 @@ public class ProductMaterialService{
         if(material.isEmpty())
             throw new MaterialNotFoundException();
 
+        if(repo.existsByProductIdAndRawMaterialId(productId,productMaterialRequestDto.getRawMaterialId()))
+            throw new RuntimeException("Material já associado a este produto");
+
+
+
         Product productBd = product.get();
         RawMaterial rawMaterialBd = material.get();
 
@@ -50,7 +55,9 @@ public class ProductMaterialService{
 
 
     public List<ProductMaterial> getAllAssociations(){
-        return repo.findAll();
+        List<ProductMaterial> list = repo.findAll();
+        System.out.println("TOTAL BANCO: " + list.size());
+        return list;
     }
 
     public ProductMaterial updateMaterial(Integer id, ProductMaterialRequestDto productMaterialRequestDto){

@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ProductMaterialRepository extends JpaRepository<ProductMaterial, Integer> {
 
-    ;
+    boolean existsByProductIdAndRawMaterialId(Integer productId, Integer rawMaterialId);
 
 }
