@@ -15,7 +15,7 @@ public class ProductMaterial {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
-git
+
     @ManyToOne
     @JoinColumn(name="product_id")
     @JsonBackReference
