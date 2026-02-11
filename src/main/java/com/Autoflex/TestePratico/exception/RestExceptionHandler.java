@@ -32,6 +32,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(retorno);
     }
 
+    @ExceptionHandler(AssociationAlredyExistsException.class)
+    public ResponseEntity<Object> handleAssociationNotFoundException(AssociationAlredyExistsException e) {
+        var retorno = new ErroResponse("Association Aleready Exists!");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(retorno);
+    }
+
 
     @ExceptionHandler(AssociationNotFoundException.class)
     public ResponseEntity<Object> handleAssociationNotFoundException(AssociationNotFoundException e) {

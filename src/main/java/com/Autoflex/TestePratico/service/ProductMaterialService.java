@@ -3,6 +3,7 @@ package com.Autoflex.TestePratico.service;
 
 import com.Autoflex.TestePratico.dto.ProductMaterialRequestDto;
 import com.Autoflex.TestePratico.dto.ProductMaterialResponseDto;
+import com.Autoflex.TestePratico.exception.AssociationAlredyExistsException;
 import com.Autoflex.TestePratico.exception.AssociationNotFoundException;
 import com.Autoflex.TestePratico.exception.MaterialNotFoundException;
 import com.Autoflex.TestePratico.exception.ProductNotFoundException;
@@ -37,7 +38,7 @@ public class ProductMaterialService{
             throw new MaterialNotFoundException();
 
         if(repo.existsByProductIdAndRawMaterialId(productId,productMaterialRequestDto.getRawMaterialId()))
-            throw new RuntimeException("Material já associado a este produto");
+            throw new AssociationAlredyExistsException();
 
 
 
@@ -56,7 +57,6 @@ public class ProductMaterialService{
 
     public List<ProductMaterial> getAllAssociations(){
         List<ProductMaterial> list = repo.findAll();
-        System.out.println("TOTAL BANCO: " + list.size());
         return list;
     }
 
