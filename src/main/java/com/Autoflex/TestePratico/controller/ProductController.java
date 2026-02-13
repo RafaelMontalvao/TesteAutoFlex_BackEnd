@@ -62,6 +62,7 @@ public class ProductController {
             List<ProductMaterialResponseDto> materials = product.getMaterial().stream().map(pm -> {
                 ProductMaterialResponseDto pmDto = new ProductMaterialResponseDto();
                 pmDto.setRawMaterialId(pm.getRawMaterial().getId());
+                pmDto.setId(pm.getId());
                 pmDto.setRawMaterialName(pm.getRawMaterial().getName());
                 pmDto.setQuantityNeeded(pm.getRequeiredQuantity());
                 return pmDto;
