@@ -28,7 +28,7 @@ public class Product {
     @Column(precision = 10, scale = 2)
     private BigDecimal price;
 
-    @JsonManagedReference
+
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<ProductMaterial >  material ;
 

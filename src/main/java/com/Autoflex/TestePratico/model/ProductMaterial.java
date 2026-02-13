@@ -18,7 +18,7 @@ public class ProductMaterial {
 
     @ManyToOne
     @JoinColumn(name="product_id")
-    @JsonBackReference
+
     private Product product;
 
     @ManyToOne
