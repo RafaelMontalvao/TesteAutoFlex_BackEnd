@@ -2,10 +2,11 @@ package com.Autoflex.TestePratico.service;
 
 
 import com.Autoflex.TestePratico.dto.RawMaterialUpdateRequestDto;
-import com.Autoflex.TestePratico.exception.MaterialAlredyExistsException;
-import com.Autoflex.TestePratico.exception.MaterialNotFoundException;
-import com.Autoflex.TestePratico.exception.ProductNotFoundException;
+import com.Autoflex.TestePratico.exception.*;
+import com.Autoflex.TestePratico.model.ProductMaterial;
 import com.Autoflex.TestePratico.model.RawMaterial;
+import com.Autoflex.TestePratico.repository.ProductMaterialRepository;
+import com.Autoflex.TestePratico.repository.ProductRepository;
 import com.Autoflex.TestePratico.repository.RawMaterialRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import java.util.OptionalInt;
 public class RawMaterialService {
 
     private final RawMaterialRepository repo;
+    private final ProductMaterialRepository productMaterialRepository;
 
     public RawMaterial createRawMaterial(RawMaterial rawMaterial) {
 
@@ -65,8 +67,11 @@ public class RawMaterialService {
 
     public void delete (Integer id){
         boolean existsMaterial = repo.existsById(id);
+        boolean existAssociation = productMaterialRepository.existsByRawMaterialId(id);
         if(!existsMaterial)
             throw new ProductNotFoundException();
+        if(existAssociation)
+            throw new ExistsAssociationException();
         repo.deleteById(id);
 
 

@@ -8,6 +8,7 @@ import com.Autoflex.TestePratico.exception.ProductNotFoundException;
 import com.Autoflex.TestePratico.exception.RegistroComNomeExistenteException;
 import com.Autoflex.TestePratico.model.Product;
 import com.Autoflex.TestePratico.model.ProductMaterial;
+import com.Autoflex.TestePratico.repository.ProductMaterialRepository;
 import com.Autoflex.TestePratico.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ import java.util.Optional;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final ProductMaterialRepository productMaterialRepository;
 
     public Product create(Product product) {
         if(productRepository.existsByCode(product.getCode()) || productRepository.existsByName(product.getName()))
@@ -120,8 +122,11 @@ public class ProductService {
 
     public void delete (Integer id){
         boolean existsProduct = productRepository.existsById(id);
+        boolean existsAssociation =  productMaterialRepository.existsByProductId(id);
         if(!existsProduct)
             throw new ProductNotFoundException();
+        if(existsAssociation)
+            throw new RegistroComNomeExistenteException();
         productRepository.deleteById(id);
 
 
